@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_application/layout/social_layout.dart';
-import '../../main.dart';
+import 'package:social_application/layout/cubit/cubit.dart';
+import 'package:social_application/screens/splash_screen/splash_screen.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cach_helper.dart';
 import '../register/register_screen.dart';
@@ -41,8 +41,9 @@ class LoginScreen extends StatelessWidget {
             ).then((value) {
               print(state.uId);
               print('${CacheHelper.getData(key:'uId')}');
-              navigateAndFinish(context, SocialLayout());
+              navigateAndFinish(context, SplashScreen());
             });
+            SocialCubit.get(context).getUserData();
             ShowToast(
                 text: 'Login Success',
                 state: ToastState.SUCCESS
@@ -72,14 +73,14 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         Text(
                           'LOGIN',
-                          style: Theme.of(context).textTheme.headline4?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'login now to communicate with friends',
-                          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -118,6 +119,7 @@ class LoginScreen extends StatelessWidget {
                                       if(value!.isEmpty){
                                         return'please enter your email address';
                                       }
+                                      return null;
                                     }
                                 ),
                                 SizedBox(
@@ -125,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 defaultFormField(
                                     controller: passwordController,
-                                    type: TextInputType.visiblePassword,
+                                    type: TextInputType.emailAddress,
                                     label: 'Password',
                                     prefix: Icons.lock_outline,
                                     suffix: LoginCubit.get(context).suffix,
@@ -144,6 +146,7 @@ class LoginScreen extends StatelessWidget {
                                       if(value!.isEmpty){
                                         return'password is too short';
                                       }
+                                      return null;
                                     }
                                 ),
                                 SizedBox(

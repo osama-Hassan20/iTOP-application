@@ -109,9 +109,7 @@ class SocialCubit extends Cubit<SocialStates>
       emit(SocialChangeBottomNavState());
     }
   }
-
-
-  UserModel? userModel;
+UserModel? userModel;
 
   void getUserData()
   {
@@ -597,6 +595,7 @@ class SocialCubit extends Cubit<SocialStates>
   Future<void> getAllComment({
     required String postId
   }) async{
+    emit(CommentViewPostLoadingState());
     commentView = [];
 
       await FirebaseFirestore.instance
@@ -608,7 +607,7 @@ class SocialCubit extends Cubit<SocialStates>
         for (var element in value.docs) {
             commentView.add(CommentModels.fromJson(element.data()));
         }
-        print("${commentView}");
+        print("${commentView.length}");
         emit(CommentViewPostSuccessState());
       }).catchError((error) {
         emit(CommentViewPostErrorState(error.toString()));
@@ -668,19 +667,6 @@ class SocialCubit extends Cubit<SocialStates>
   }
 
 
-  Future<int> getMessageCount(String receiverId) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("user")
-        .doc(userModel!.uId)
-        .collection("Chats")
-        .doc(receiverId)
-        .collection("messages")
-        .get();
-
-    int messageCount = querySnapshot.size;
-    return messageCount;
-  }
-
   Future<void> sendMessage({
     required String receiverId,
     required String dateTime,
@@ -736,7 +722,7 @@ class SocialCubit extends Cubit<SocialStates>
         .collection("Chats")
         .doc(userModel!.uId)
         .collection("messages")
-        .orderBy('dateTime')
+        .orderBy('dateTime',descending: true)
         .snapshots()
         .listen((event) {
       messages = [];

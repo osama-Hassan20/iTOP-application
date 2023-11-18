@@ -69,6 +69,7 @@ class RegisterCubit extends Cubit<RegisterStates>
           emit(CreateSuccessState(uId));
     }).catchError((error){
       emit(CreateErrorState(error.toString()));
+      print(error.toString());
     });
 
   }

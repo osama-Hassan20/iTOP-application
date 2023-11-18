@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_application/layout/cubit/cubit.dart';
 import 'package:social_application/layout/cubit/states.dart';
-import 'package:social_application/screens/new_post/new_post_screen.dart';
-import 'package:social_application/shared/components/components.dart';
-
 import '../shared/styles/icon_broken.dart';
 
 class SocialLayout extends StatelessWidget {
@@ -34,6 +31,7 @@ class SocialLayout extends StatelessWidget {
               ),
             ],
           ),
+
           body:cibut.screen[cibut.currentIndex],
 
           bottomNavigationBar: BottomNavigationBar(

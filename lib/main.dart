@@ -5,6 +5,7 @@ import 'package:social_application/layout/cubit/cubit.dart';
 import 'package:social_application/layout/social_layout.dart';
 import 'package:social_application/screens/login/login_screen.dart';
 import 'package:social_application/screens/on_boarding/on_boarding.dart';
+import 'package:social_application/screens/splash_screen/splash_screen.dart';
 import 'package:social_application/shared/network/local/cach_helper.dart';
 
 import 'firebase_options.dart';
@@ -25,7 +26,7 @@ void main() async {
   {
     if(uId != null)
     {
-      widget = SocialLayout();
+      widget = SplashScreen();
     }else
     {
       widget = LoginScreen();

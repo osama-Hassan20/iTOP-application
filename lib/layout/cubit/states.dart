@@ -1,8 +1,9 @@
 abstract class SocialStates{}
 
 class AppChangeBottomSheetState extends SocialStates{}
-
-
+//CreateErrorState
+//RegisterLoadingState
+//SocialGetUserErrorState
 //GetUser
 
 class SocialInitialState extends SocialStates{}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../layout/cubit/cubit.dart';
 import '../../layout/cubit/states.dart';
@@ -253,7 +254,6 @@ Widget tagsPost(String text, context,cubit){
 
 
 
-
 //***********buildPostItem*************
 Widget buildPostItem(PostModel model, context, index) {
   SocialCubit cubit = SocialCubit.get(context);
@@ -359,7 +359,6 @@ Widget buildPostItem(PostModel model, context, index) {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-
                       cubit.isExpanded ? 'Show Less' : 'Show More',
                       style: TextStyle(color: Colors.blue),
                     ),
@@ -431,79 +430,7 @@ Widget buildPostItem(PostModel model, context, index) {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {
-                           cubit.getAllComment(postId: cubit.postsId[index]);
-                          cubit.scaffoldKey.currentState
-                              ?.showBottomSheet(
-                                  (context) => Container(
-                                height: double.infinity,
-                                width: double.infinity,
-                                // color: Colors.grey[300],
-                                child: cubit.commentView.length ==0 ?
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.comment,
-                                      size: 100,
-                                      color: Colors.grey[300],
-
-                                    ),
-                                    Text(
-                                      'No comments yet',
-                                      style: TextStyle(
-                                          fontSize: 18
-                                      ),
-                                    ),
-                                    Text('Be the frist comment',
-                                      style: TextStyle(
-                                          fontSize: 18
-                                      ),
-                                    ),
-
-                                  ],
-                                ) : ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context , index) =>ListTile(
-                                    leading: CircleAvatar(//cubit.commentView[index]
-                                      backgroundImage:
-                                      NetworkImage('${cubit.commentView[index].image}'),
-                                    ),
-                                    title: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[300],
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
-                                            )
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 8,top: 8),
-                                          child: Text('${cubit.commentView[index].name}'),
-                                        )),
-                                    subtitle: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[300],
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(20),
-                                                bottomRight: Radius.circular(20)
-                                            )
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: Text('${cubit.commentView[index].comment}'),
-                                        )),
-                                    // trailing: Text(comment.createdAt.toString()),
-                                  ),
-                                  separatorBuilder: (context , index) =>const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  itemCount: cubit.commentView.length,
-                                ),
-                              ));
-
-                        },
+                        onTap: () {},
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: Row(
@@ -527,7 +454,7 @@ Widget buildPostItem(PostModel model, context, index) {
                               if (cubit.comments.isEmpty)
                                 Text(
                                   '0 comment',
-                                  //'${cubit.comments.length} comment',
+                                  // '${cubit.comments.length} comment',
                                   style:
                                   Theme.of(context).textTheme.bodySmall,
                                 ),
@@ -549,65 +476,16 @@ Widget buildPostItem(PostModel model, context, index) {
                 color: Colors.grey[300],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: InkWell(
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: NetworkImage('${cubit.userModel!.image}'),
-                            radius: 18.0,
-                          ),
-                          const SizedBox(
-                            width: 15.0,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (value) {
-                                cubit.sendIconColors[index] = value.isNotEmpty
-                                    ? Colors.blue
-                                    : Colors.grey;
-                                cubit.changeTextField();
-                              },
-                              onSaved: (value) {},
-                              decoration: InputDecoration(
-                                hintText: commentController.text == ''
-                                    ? ' Write Comment ... '
-                                    : commentController.text,
-                              ),
-                              controller: commentController,
-                            ),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.send, color: color),
-                              onPressed: () {
-                                if (commentController.text != '' &&
-                                    commentController.text !=
-                                        ' Write Comment ... ' &&
-                                    color == Colors.blue) {
-                                  cubit.createCommentPost(
-                                    postId: cubit.postsId[index],
-                                    comment: commentController.text,
-                                  );
-                                  cubit.getPosts();
-                                  print("send comment");
-                                  commentController.text =
-                                  " Write Comment ... ";
-                                }
-                              }),
-                        ],
-                      ),
-                      onTap: () {},
-                    ),
-                  ),
+
                   InkWell(
                     child: Row(
                       children: [
                         const Icon(
                           IconBroken.Heart,
                           size: 16.0,
-                          color: Colors.red,
+                          color: Colors.grey,
                         ),
                         const SizedBox(
                           width: 5.0,
@@ -622,6 +500,270 @@ Widget buildPostItem(PostModel model, context, index) {
                       cubit.likePost(cubit.postsId[index]);
                     },
                   ),
+                  InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          IconBroken.Chat,
+                          size: 16.0,
+                          color: Colors.grey,
+                        ),
+
+                          Text(
+                            'comment',
+                            style:
+                            Theme.of(context).textTheme.bodySmall,
+                          ),
+
+                      ],
+                    ),
+                    onTap: () {
+                      cubit.getAllComment(postId: cubit.postsId[index]);
+                      cubit.scaffoldKey.currentState
+                          ?.showBottomSheet(
+                            (context) =>
+                            SizedBox (
+                              height: double.infinity,
+                              width: double.infinity,
+                              // color: Colors.grey[300],
+                              child:
+                                cubit.commentView.isNotEmpty ?
+                                Column(
+                                  children: [
+                                    ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context , index) =>ListTile(
+                                        leading: CircleAvatar(//cubit.commentView[index]
+                                          backgroundImage:
+                                          NetworkImage('${cubit.commentView[index].image}'),
+                                        ),
+                                        title: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(20),
+                                                  topLeft: Radius.circular(20),
+                                                )
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8,top: 8),
+                                              child: Text('${cubit.commentView[index].name}'),
+                                            )),
+                                        subtitle: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft: Radius.circular(20),
+                                                    bottomRight: Radius.circular(20)
+                                                )
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child: Text('${cubit.commentView[index].comment}'),
+                                            )),
+                                        // trailing: Text(comment.createdAt.toString()),
+                                      ),
+                                      separatorBuilder: (context , index) =>const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      itemCount: cubit.commentView.length,
+                                    ),
+                                    Spacer(),
+                                    Spacer(),
+                                    Expanded(
+                                      child: InkWell(
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor: Colors.transparent,
+                                              backgroundImage: NetworkImage('${cubit.userModel!.image}'),
+                                              radius: 18.0,
+                                            ),
+                                            const SizedBox(
+                                              width: 15.0,
+                                            ),
+                                            Expanded(
+                                              child: TextFormField(
+                                                autofocus: true,
+                                                onChanged: (value) {
+                                                  cubit.sendIconColors[index] = value.isNotEmpty
+                                                      ? Colors.blue
+                                                      : Colors.grey;
+                                                  cubit.changeTextField();
+                                                },
+                                                onSaved: (value) {},
+                                                decoration: InputDecoration(
+                                                  contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                                                  border: OutlineInputBorder(
+
+                                                    borderRadius: BorderRadius.circular(100),
+                                                  ),
+                                                  hintText: commentController.text == ''
+                                                      ? ' Write Comment ... '
+                                                      : commentController.text,
+                                                ),
+                                                controller: commentController,
+                                              ),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(Icons.send, color: color),
+                                                onPressed: () {
+                                                  if (commentController.text != '' &&
+                                                      commentController.text !=
+                                                          ' Write Comment ... ' &&
+                                                      color == Colors.blue) {
+                                                    cubit.createCommentPost(
+                                                      postId: cubit.postsId[index],
+                                                      comment: commentController.text,
+                                                    );
+                                                    cubit.getPosts();
+                                                    print("send comment");
+                                                    commentController.text =
+                                                    " Write Comment ... ";
+                                                  }
+                                                }),
+                                          ],
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                    ),
+                                  ],
+                                )
+                                    :  Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.comment,
+                                      size: 100,
+                                      color: Colors.grey[300],
+
+                                    ),
+                                    Text(
+                                      'No comments yet',
+                                      style: TextStyle(
+                                          fontSize: 18
+                                      ),
+                                    ),
+                                    Text('Be the frist comment',
+                                      style: TextStyle(
+                                          fontSize: 18
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Expanded(
+                                      child: InkWell(
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor: Colors.transparent,
+                                              backgroundImage: NetworkImage('${cubit.userModel!.image}'),
+                                              radius: 18.0,
+                                            ),
+                                            const SizedBox(
+                                              width: 5.0,
+                                            ),
+                                            Expanded(
+                                              child: TextFormField(
+                                                autofocus: true,
+                                                onChanged: (value) {
+                                                  cubit.sendIconColors[index] = value.isNotEmpty
+                                                      ? Colors.blue
+                                                      : Colors.grey;
+                                                  cubit.changeTextField();
+                                                },
+                                                onSaved: (value) {},
+                                                decoration: InputDecoration(
+                                                  contentPadding: EdgeInsets.symmetric(vertical: 0.0),
+                                                  border: OutlineInputBorder(
+
+                                                    borderRadius: BorderRadius.circular(100),
+                                                  ),
+                                                  hintText: commentController.text == ''
+                                                      ? ' Comment as ${cubit.userModel!.name}... '
+                                                      : commentController.text,
+                                                ),
+                                                controller: commentController,
+                                              ),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(Icons.send, color: color),
+                                                onPressed: () {
+                                                  if (commentController.text != '' &&
+                                                      commentController.text !=
+                                                          ' Write Comment ... ' &&
+                                                      color == Colors.blue) {
+                                                    cubit.createCommentPost(
+                                                      postId: cubit.postsId[index],
+                                                      comment: commentController.text,
+                                                    );
+                                                    cubit.getPosts();
+                                                    cubit.getAllComment(postId: cubit.postsId[index]);
+                                                    print("send comment");
+                                                    commentController.text =
+                                                    " Write Comment ... ";
+                                                  }
+                                                }),
+                                          ],
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+
+                            ),
+
+                      );
+                    },
+                  ),
+                  InkWell(
+                    child: Row(
+                      children: [
+                        const Icon(
+                          IconBroken.Send,
+                          size: 16.0,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(
+                          width: 1.0,
+                        ),
+                        Text(
+                          'Send',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Share.share('${cubit.postsId[index]}');
+                      // cubit.likePost(cubit.postsId[index]);
+                    },
+                  ),
+                  InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.share,
+                          size: 16.0,
+                          color: Colors.grey,
+                        ),
+
+                          Text(
+                            'Share',
+                            style:
+                            Theme.of(context).textTheme.bodySmall,
+                          ),
+
+                      ],
+                    ),
+                    onTap: () {
+                      comingSoon();
+                    },
+                  ),
+
                 ],
               ),
             ],

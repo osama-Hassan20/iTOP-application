@@ -63,6 +63,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFfafafa),
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Color(0xFFfafafa),
         actions: [
           Padding(

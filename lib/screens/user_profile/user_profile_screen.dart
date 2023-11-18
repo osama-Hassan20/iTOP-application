@@ -1,19 +1,14 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../layout/cubit/cubit.dart';
 import '../../layout/cubit/states.dart';
 import '../../models/user_model.dart';
 import '../../shared/components/components.dart';
-import '../../shared/components/constant.dart';
 import '../../shared/styles/icon_broken.dart';
 import '../chats/chat_details_screen.dart';
-import '../edit_profile/edit_profile_screen.dart';
-import '../new_post/new_post_screen.dart';
-
 class UserProfileScreen extends StatelessWidget {
-  UserProfileScreen({Key? key, required this.userModel}) : super(key: key);
+  const UserProfileScreen({Key? key, required this.userModel}) : super(key: key);
   final UserModel userModel;
 
   @override
@@ -273,8 +268,6 @@ class UserProfileScreen extends StatelessWidget {
                     ),
 
 
-
-
                     Container(
                       margin: EdgeInsets.symmetric(
                           vertical: 20
@@ -283,6 +276,8 @@ class UserProfileScreen extends StatelessWidget {
                       height: 10,
                       color: Colors.grey,
                     ),
+
+
                     Text(
                       'Posts',
                       style: TextStyle(
@@ -290,43 +285,7 @@ class UserProfileScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {navigateTo(context, NewPostScreen());},
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage:
-                                    NetworkImage('${userModel.image}'),
-                                    radius: 24.0,
-                                  ),
-                                  const SizedBox(
-                                    width: 15.0,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'What\'s on your mind?',
-                                    ),
-                                  ),
-                                  Icon(
-                                    IconBroken.Image,
-                                    size: 24.0,
-                                    color: Colors.green,
-                                  ),                            ],
-                              ),
 
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     Row(
                       children: [
                         SizedBox(width: 10,),
