@@ -300,6 +300,159 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
 
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: 20
+                    ),
+                    width: double.infinity,
+                    height: 10,
+                    color: Colors.grey,
+                  ),
+
+                  Text(
+                    'Posts',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {navigateTo(context, NewPostScreen());},
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                  NetworkImage('${userModel.image}'),
+                                  radius: 24.0,
+                                ),
+                                const SizedBox(
+                                  width: 15.0,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'What\'s on your mind?',
+                                  ),
+                                ),
+                                Icon(
+                                  IconBroken.Image,
+                                  size: 24.0,
+                                  color: Colors.green,
+                                ),                            ],
+                            ),
+
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 10,),
+                      InkWell(
+                        onTap: (){
+                          comingSoon();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.video_library,
+                                size: 16.0,
+                                color: Colors.red,
+                              ),
+                              SizedBox(width: 5,),
+                              Text(
+                                'Reel',
+                              ),
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 25,),
+                      InkWell(
+                        onTap: (){
+                          comingSoon();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.video_camera_front,
+                                size: 16.0,
+                                color: Colors.red,
+                              ),
+                              SizedBox(width: 5,),
+                              Text(
+                                'Live',
+                              ),
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: 20
+                    ),
+                    width: double.infinity,
+                    height: 5,
+                    color: Colors.grey,
+                  ),
+
+                  if(cubit.posts.isNotEmpty)
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8.0,
+                      ),
+                      itemBuilder: (context, index)
+                      {
+                        if(userModel.uId == cubit.posts[index].uId){
+                          return buildPostItem(cubit.posts[index], context, index);
+                        }else {
+                          return Container();
+                        }
+                      },
+
+                      itemCount: cubit.posts.length,
+                    ),
+
                 ],
               ),
             ),
