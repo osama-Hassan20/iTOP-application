@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_application/layout/social_layout.dart';
 
 import '../../../shared/components/components.dart';
 import '../../shared/network/local/cach_helper.dart';
@@ -39,7 +38,6 @@ class RegisterScreen extends StatelessWidget {
         },
         builder: (context , state)
         {
-          var cubit =RegisterCubit.get(context);
           return Scaffold(
             body: Stack(
               children: [
@@ -61,14 +59,14 @@ class RegisterScreen extends StatelessWidget {
                       children: [
                         Text(
                           'REGISTER',
-                          style: Theme.of(context).textTheme.headline4?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'Register now to to communicate with friends',
-                          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -105,6 +103,7 @@ class RegisterScreen extends StatelessWidget {
                                     if(value!.isEmpty){
                                       return'please enter your name';
                                     }
+                                    return null;
                                   }
                               ),
                               const SizedBox(
@@ -119,6 +118,7 @@ class RegisterScreen extends StatelessWidget {
                                     if(value!.isEmpty){
                                       return'please enter your email address';
                                     }
+                                    return null;
                                   }
                               ),
                               const SizedBox(
@@ -126,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                               ),
                               defaultFormField(
                                   controller: passwordController,
-                                  type: TextInputType.visiblePassword,
+                                  type: TextInputType.emailAddress,
                                   label: 'Password',
                                   prefix: Icons.lock_outline,
                                   suffix: RegisterCubit.get(context).suffix,
@@ -137,8 +137,12 @@ class RegisterScreen extends StatelessWidget {
                                   },
                                   validate: (String? value){
                                     if(value!.isEmpty){
-                                      return'password is too short';
+                                      return'please enter your password';
                                     }
+                                    if (value.length < 7) {
+                                      return "password is too short";
+                                    }
+                                    return null;
                                   }
                               ),
                               const SizedBox(
@@ -153,6 +157,7 @@ class RegisterScreen extends StatelessWidget {
                                     if(value!.isEmpty){
                                       return'please enter your phone';
                                     }
+                                    return null;
                                   }
                               ),
                               const SizedBox(
