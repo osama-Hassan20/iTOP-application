@@ -12,6 +12,7 @@ class ChatDetailsScreen extends StatelessWidget {
   ChatDetailsScreen({Key? key, required this.userModel}) : super(key: key);
   final UserModel userModel;
   TextEditingController messageController = TextEditingController();
+  final scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -50,6 +51,8 @@ class ChatDetailsScreen extends StatelessWidget {
                       condition: cubit.messages.isNotEmpty,
                       builder: (context) => Expanded(
                         child: ListView.separated(
+                          reverse: true,
+                          controller: scrollController,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             MessageModel message = cubit.messages[index];
@@ -68,6 +71,9 @@ class ChatDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       fallback: (context) => const Spacer(),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -115,6 +121,7 @@ class ChatDetailsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
+
                           Row(
                             children: [
                               Expanded(
@@ -126,6 +133,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+
                               Container(
                                 height: 50.0,
                                 color: Colors.teal,
@@ -147,6 +155,9 @@ class ChatDetailsScreen extends StatelessWidget {
                                       );
                                       messageController.text = '';
                                     }
+                                    scrollController.jumpTo(
+                                      0,
+                                    );
                                   },
                                   child: const Icon(
                                     IconBroken.Send,

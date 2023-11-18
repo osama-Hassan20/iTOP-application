@@ -283,6 +283,8 @@ class UserProfileScreen extends StatelessWidget {
                       height: 10,
                       color: Colors.grey,
                     ),
+
+
                     Text(
                       'Posts',
                       style: TextStyle(
