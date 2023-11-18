@@ -449,10 +449,8 @@ class SettingsScreen extends StatelessWidget {
                           return Container();
                         }
                       },
-
                       itemCount: cubit.posts.length,
                     ),
-
                 ],
               ),
             ),

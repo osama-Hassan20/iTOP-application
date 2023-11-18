@@ -273,8 +273,6 @@ class UserProfileScreen extends StatelessWidget {
                     ),
 
 
-
-
                     Container(
                       margin: EdgeInsets.symmetric(
                           vertical: 20
